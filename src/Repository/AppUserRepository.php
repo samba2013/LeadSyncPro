@@ -125,7 +125,7 @@ class AppUserRepository extends ServiceEntityRepository implements AppUserReposi
 
     public function findAppUserByEmail(string $email): ?AppUser
     {
-        return $this->findOneBy(['email'=>$email,'deletedAt'=>null]);
+        return $this->findOneBy(['email'=>$email,'deleted_at'=>null]);
     }
 
     public function findAppUserById(int $id,bool $includeDeleted = false): ?AppUser
