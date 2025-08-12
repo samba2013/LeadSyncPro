@@ -168,6 +168,8 @@ When you are inside your docker then ...
 bin/console messenger:consume async -vv
 ```
 
+
+8. **Postman Collection is available to be imported in the project structure**
 ---
 
 ## 📌 Notes & Assumptions

@@ -6,4 +6,5 @@
 /public/bundles/
 /var/
 /vendor/
+/.LeadSyncPro.postman_collection.json
 ###< symfony/framework-bundle ###
