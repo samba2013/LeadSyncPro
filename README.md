@@ -127,18 +127,14 @@ All exceptions are intercepted by `ExceptionListener`, which:
 ## ⚙️ Setup Instructions
 
 1. **Clone the repo**
-   ```bash
+```bash
    git clone https://github.com/samba2013/LeadSyncPro.git
    cd LeadSyncPro
-   ```
+```
 
-2. **Install dependencies**
-   ```bash
-   composer install
-   ```
 
 3. **update/create your `.env`**
-   ```env
+```bash
 MYSQL_DATABASE="leadsync-dev-db"
 MYSQL_ROOT_PASSWORD="!changeMe!"
 MYSQL_PASSWORD="!change!"
@@ -148,17 +144,21 @@ MYSQL_CHARSET="utf8mb4"
 ```
 
 4. **Run Docker**
-   ```bash
+```bash
    docker compose build --pull --no-cache
+```
+```bash
    docker compose up --wait
+```
+```bash
    docker exec -it leadsyncpro-php-1 bash
-   ```
+```
 
 When you are inside your docker then ...
 
 5. **Generate your first app admin user with token key**
    ```bash
-   php bin/console app:create-client-apikey email@domain --full_name="My fullname" -vvv
+   php bin/console app:create-client-apikey email@domain.com --full_name="My fullname" -v
    ```
 
 6. **Start using the postman collection with the generated api key**
