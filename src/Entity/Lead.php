@@ -24,7 +24,7 @@ class Lead
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $last_name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique:true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -56,6 +56,9 @@ class Lead
 
     #[ORM\Column]
     private ?array $verticals = [];
+
+    #[ORM\Column(nullable: true)]
+    private ?array $extra_data = null;
 
     public function getId(): ?int
     {
@@ -206,6 +209,7 @@ class Lead
         $lead->setDob($leadCreateDto->dob ? new DateTime($leadCreateDto->dob) : null);
         $lead->setVerticals($leadCreateDto->verticals);
         $lead->setPhone($leadCreateDto->phone);
+        $lead->setExtraData($leadCreateDto->extraData);
         $lead->setCreatedAt(new DateTimeImmutable());
         return $lead;
     }
@@ -230,6 +234,18 @@ class Lead
     public function setVerticals(array $verticals): static
     {
         $this->verticals = $verticals;
+
+        return $this;
+    }
+
+    public function getExtraData(): ?array
+    {
+        return $this->extra_data;
+    }
+
+    public function setExtraData(?array $extra_data): static
+    {
+        $this->extra_data = $extra_data;
 
         return $this;
     }

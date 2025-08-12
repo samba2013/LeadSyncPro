@@ -60,7 +60,7 @@ class CreateClientApikeyCommand extends Command
             $appUserInstance->setIsActive(true);
         }
 
-        $appUserInstance->setRoles(["ROLE_API_CLIENT"]);
+        $appUserInstance->setRoles(["ROLE_ADMIN"]);
 
         $newApiKey = bin2hex(random_bytes(32)); // 64
         $appUserApiKey = new AppUserApiKey(hash("sha256",$newApiKey),$expiresAt);

@@ -8,6 +8,7 @@ use App\Model\AppUserApiKeyCreateDto;
 use App\Model\AppUserCreateDto;
 use App\Model\AppUserUpdateDto;
 use App\Model\AppUserViewDto;
+use App\Repository\Enums\ExceptionCodeEnum;
 use App\Repository\Interfaces\AppUserApiKeyRepositoryInterface;
 use App\Repository\Interfaces\AppUserRepositoryInterface;
 use App\Resolver\PatchRequestPayloadResolver;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+#[Route("/admin/api/user/")]
 final class AdminApiController extends AbstractController
 {
 
@@ -33,14 +34,14 @@ final class AdminApiController extends AbstractController
         
     }
 
-    #[Route('/admin/api/user/', name: 'app_get_users_api', methods:["GET"], format: "json")]
+    #[Route('', name: 'app_get_users_api', methods:["GET"], format: "json")]
     public function getAllUsers(#[MapQueryParameter] bool $include_access_tokens = false):JsonResponse
     {
         $users = $include_access_tokens ? $this->appUserRepository->getAppUsers() : $this->appUserRepository->findAllWithoutApiTokens();
         return $this->json($users,Response::HTTP_OK);
     }
 
-    #[Route('/admin/api/user/{id}', name: 'app_get_user_api', methods:["GET"], format: "json")]
+    #[Route('{id}', name: 'app_get_user_api', methods:["GET"], format: "json")]
     public function findUser(int $id):Response
     {
         $user = $this->appUserRepository->findAppUserById($id);
@@ -51,17 +52,12 @@ final class AdminApiController extends AbstractController
         return $this->json(AppUserViewDto::getInstanceFromAppUser($user),Response::HTTP_OK);
     }
 
-    #[Route('/admin/api/user/', name: 'app_register_user_api', methods:["POST"], format: "json")]
+    #[Route('', name: 'app_register_user_api', methods:["POST"], format: "json")]
     public function registerAppUser(#[MapRequestPayload(
         acceptFormat:"json",
         validationFailedStatusCode:Response::HTTP_BAD_REQUEST
     )] AppUserCreateDto $userCreateDto):Response
     {
-        $status_code = Response::HTTP_CREATED;
-        $data = [
-            "status"=>"Ok",
-            "message"=>"User has been successfully created"
-        ];
         try {
             $user = (new AppUser($userCreateDto->email))
                 ->setFullName($userCreateDto->fullName)
@@ -72,17 +68,26 @@ final class AdminApiController extends AbstractController
             $this->appUserRepository->addAppUser($user);
             $this->appUserRepository->saveChanges();
            
-            $data['id'] = $user->getId();
+            return $this->redirectToRoute('app_get_user_api', ['id' => $user->getId()],status:Response::HTTP_MOVED_PERMANENTLY);
         } catch (\Throwable $th) {
+            $message = "Unexpected error occured while creating app user, check the logs for details.";
+            $status = "Error";
+            $responseStatusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            if($th->getCode() == ExceptionCodeEnum::DUPLICATE_APP_USER->value){
+                $status = "Unprocessable";
+                $message = "Email already exists, please use different email.";
+                $responseStatusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+            }
             $this->logger->error((string)$th);
-            $data['status']="Error";
-            $data['message']="Unexpected error occured while creating app user, check the logs for details.";
-            $status_code = Response::HTTP_INTERNAL_SERVER_ERROR;
+            return $this->json([
+                'status'=>$status,
+                'message'=>$message
+            ],$responseStatusCode);
         }
-        return $this->json($data,$status_code);
+        
     }
 
-    #[Route('/admin/api/user/{id}', name: 'app_update_user_api', methods:["PATCH"], format: "json")]
+    #[Route('{id}', name: 'app_update_user_api', methods:["PATCH","PUT"], format: "json")]
     public function updateAppUser(int $id, #[MapRequestPayload(
         acceptFormat:"json",
         validationFailedStatusCode:Response::HTTP_BAD_REQUEST,
@@ -98,18 +103,7 @@ final class AdminApiController extends AbstractController
         $status_code = Response::HTTP_NO_CONTENT;
         $data = null;
         try {
-            // $user->setFullName($userUpdateDto->fullName)
-            //     ->setDescription($userUpdateDto->description)
-            //     ->setSourceUrl($userUpdateDto->sourceUrl)
-            //     ->setUpdatedAt(new DateTimeImmutable());
-
-            // if(is_array($userUpdateDto->roles) && count($userUpdateDto->roles)>0){
-            //     $user->setRoles($userUpdateDto->roles);
-            // }
-
-            // if(is_bool($userUpdateDto->isActive)){
-            //     $user->setIsActive($userUpdateDto->isActive);
-            // }
+         
             $this->appUserRepository->updateAppUser($user,$userUpdateDto);
             $this->appUserRepository->saveChanges();
            
@@ -126,7 +120,7 @@ final class AdminApiController extends AbstractController
     }
 
 
-    #[Route('/admin/api/user/{id}', name: 'app_delete_user_api', methods:["DELETE"], format: "json")]
+    #[Route('{id}', name: 'app_delete_user_api', methods:["DELETE"], format: "json")]
     public function deleteAppUser(int $id):Response
     {
         $user = $this->appUserRepository->findAppUserById($id);
@@ -152,7 +146,7 @@ final class AdminApiController extends AbstractController
 
 
 
-    #[Route('/admin/api/user/{id}/access_tokens', name: 'app_user_access_token_api', methods:["POST"], format: "json")]
+    #[Route('{id}/access_tokens', name: 'app_user_access_token_api', methods:["POST"], format: "json")]
     public function getActiveAccessTokenForUser(
         int $id,
         #[MapRequestPayload(

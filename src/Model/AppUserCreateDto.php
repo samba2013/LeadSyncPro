@@ -17,6 +17,10 @@ class AppUserCreateDto{
     #[Assert\Length(max:255)]
     public ?string $fullName = null;
     
+    #[Assert\Type(
+        type:'array',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     public array $roles = ["ROLE_API_CLIENT"];
     
     #[Assert\Length(max:255)]

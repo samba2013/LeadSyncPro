@@ -43,7 +43,10 @@ class LeadCreateDto {
         public ?string $countryCode,
 
         #[Assert\Length(max:20)]
-        public ?string $zipCode
+        public ?string $zipCode,
+
+        #[Assert\Type(type:'array')]
+        public ?array $extraData = null
 
     ) {
     }

@@ -26,12 +26,11 @@ final class TrackingApiController extends AbstractController
     #[Route('/api/tracking/', name: 'app_tracking_api', methods:["POST"], format: "json")]
     public function index(
         Request $request,
-        #[CurrentUser] ?AppUser $appUser,
         #[MapRequestPayload(
-        acceptFormat: 'json',
-        // validationGroups: ['strict', 'read'],
-        validationFailedStatusCode: Response::HTTP_BAD_REQUEST
-    )] LeadCreateDto $leadDto
+                acceptFormat: 'json',
+                // validationGroups: ['strict', 'read'],
+                validationFailedStatusCode: Response::HTTP_BAD_REQUEST
+        )] LeadCreateDto $leadDto
     ): JsonResponse
     {
 

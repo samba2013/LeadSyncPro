@@ -4,9 +4,11 @@ namespace App\Repository;
 
 use App\Entity\AppUser;
 use App\Model\AppUserUpdateDto;
+use App\Repository\Enums\ExceptionCodeEnum;
 use App\Repository\Interfaces\AppUserRepositoryInterface;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -67,6 +69,8 @@ class AppUserRepository extends ServiceEntityRepository implements AppUserReposi
     {
         try {
             $this->getEntityManager()->flush();
+        }catch(UniqueConstraintViolationException $ex){
+            throw new \Exception($ex->getMessage(),ExceptionCodeEnum::DUPLICATE_APP_USER->value,$ex);
         } catch (\Throwable $th) {
             $this->logger->error((string)$th);
             return false;
