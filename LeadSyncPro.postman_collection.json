@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "fa7f093a-673c-4dc7-bfe0-a6b9ced9f1e4",
+		"name": "LeadSyncPro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47325477",
+		"_collection_link": "https://mimoun-ellebbar-1619019.postman.co/workspace/Mymoon-el's-Workspace~da9e9d37-2f61-4b38-850d-ee000bf00748/collection/47325477-fa7f093a-673c-4dc7-bfe0-a6b9ced9f1e4?action=share&source=collection_link&creator=47325477"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "GetAllAppUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "fa9818f55a60118d633f5966143a6313e0e7cb9cab8bc9cae1c8eedc7ebe26f7",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/admin/api/user/?include_access_tokens=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"api",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "include_access_tokens",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAppUserById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/admin/api/user/?include_access_tokens=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"api",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "include_access_tokens",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterNewAppUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mimoun.ellebbar1991@icloud.com\",\r\n    \"fullName\":\"Mimoun Ellebbar\",\r\n    \"roles\":[\"ROLE_ADMIN\"],\r\n    \"description\":\"App Manager\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/admin/api/user/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"api",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "include_access_tokens",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateAppUser",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/admin/api/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"api",
+								"user",
+								"3"
+							],
+							"query": [
+								{
+									"key": "include_access_tokens",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAppUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/admin/api/user/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"api",
+								"user",
+								"9"
+							],
+							"query": [
+								{
+									"key": "include_access_tokens",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccessApiKeyForUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "4de54eb46cc09cc03285e4289bda0ed3ac16fd6fbdbbb83426a18c37c40a5b42",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expirationDate\":\"2025-08-12 12:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/admin/api/user/2/access_tokens",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"api",
+								"user",
+								"2",
+								"access_tokens"
+							],
+							"query": [
+								{
+									"key": "include_access_tokens",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StoreLead",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-AUTH-TOKEN",
+						"value": "e0d3fd585d7ab9d73528f6d29e923f59af310d5806cd834d0d1db1ece8045996",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"data\",\r\n  \"lastName\": \"mya\",\r\n  \"extraData\": {\r\n    \"extra_field\":\"random value 1\",\r\n    \"extra_field_2\": 1\r\n  },\r\n  \"dob\": \"1991-12-25\",\r\n  \"email\": \"myemail999@icloud.com\",\r\n  \"verticals\": [\r\n    \"Shopping\",\r\n    \"Fashion\",\r\n    \"Sport\"\r\n  ],\r\n  \"city\": \"Timonium\",\r\n  \"countryCode\": \"US\",\r\n  \"zipCode\": \"23232\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/tracking/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tracking",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "5e18921c92505250f30574af52d5d452fdfc01d5a0590d5c247c465e52f74f77",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-AUTH-TOKEN",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "AUTH_TOKEN",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NTQ3OTc4NTIsImV4cCI6MTc1NDgwMTQ1Miwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6Im1pbW91bi5kZXZAaWNsb3VkLmNvbSJ9.TrUhDewjmFWQor5fc35DiqizIAeTDyrLvnzwAYxhCOYEu4GJLXTsiFFjA6vX2HhEfEFB7E17CZCDfDWSm-5HQJ0_jAm9A3ymAoPisqYjb8luyk5wb5-oxYJXkvVb7uV8an0wa04JkrYQ1Nwu7JPXcI8u2XAtigVRWPsGAKnN0F425KnAIXY0gwRYlzfgvmKb7ONdNTzWX15ReTF1IabbxNCJcPBz6ImCVwGs6mvXpB9G71cn7vLufuGqrO8imq7LlXo_lcMHXinbIypu3CDrWX9LxmBnlaS9GhFt3Nd1CLRWANgne3aAQfRQ8BEGTLlTI4kU-QTYToMJoHlZag4ujA",
+			"type": "string"
+		}
+	]
+}
